@@ -32,6 +32,7 @@ interface State {
   drawerTitle: React.ReactNode | null;
   drawerContent: React.ReactNode | null;
   isDrawerOpen: boolean;
+  messages: string[];
 }
 
 class HomePage extends React.Component<Props, State> {
@@ -39,6 +40,7 @@ class HomePage extends React.Component<Props, State> {
     drawerTitle: null,
     drawerContent: null,
     isDrawerOpen: false,
+    messages: [],
   };
   drawerTimeout: any = null;
 
@@ -72,6 +74,21 @@ class HomePage extends React.Component<Props, State> {
             key="transactions"
           >
             <TransactionList onClick={this.handleTransactionClick} />
+          </Tabs.TabPane>
+          <Tabs.TabPane
+            tab={
+              <>
+                <Icon type="shopping" /> Native MSG
+              </>
+            }
+            key="msg"
+          >
+            <button onClick={this.handleMsgInit}>Test me</button>
+            <div>
+              {this.state.messages.map(msg => (
+                <p key={msg}>{msg}</p>
+              ))}
+            </div>
           </Tabs.TabPane>
         </Tabs>
 
@@ -136,6 +153,40 @@ class HomePage extends React.Component<Props, State> {
 
   private handleTransactionClick = (tx: AnyTransaction) => {
     this.openDrawer(<TransactionInfo tx={tx} />, 'Transaction Details');
+  };
+
+  private loginfo = (msg: string) => {
+    console.log(msg);
+    const messages = this.state.messages.concat(JSON.stringify(msg));
+    this.setState({ ...this.state, messages });
+  };
+
+  private handleMsgInit = () => {
+    this.loginfo('trying to init');
+
+    const application = 'com.btc_inc.ln_wallet';
+    let port = null;
+    this.loginfo('chrome.runtime.connectNative');
+
+    port = chrome.runtime.connectNative(application);
+
+    port.onMessage.addListener(this.loginfo);
+
+    port.onDisconnect.addListener(e => {
+      this.loginfo('unexpected disconnect' + e.name);
+
+      port = null;
+    });
+
+    const msg = { getinfo: 'true' };
+
+    if (port) {
+      this.loginfo('port.postMessage');
+      port.postMessage(msg);
+    } else {
+      this.loginfo('chrome.runtime.sendNativeMessage');
+      chrome.runtime.sendNativeMessage(application, msg, this.loginfo);
+    }
   };
 
   private retryConnection = () => {
