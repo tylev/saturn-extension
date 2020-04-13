@@ -6,6 +6,8 @@ import rootSaga from './sagas';
 
 const sagaMiddleware = createSagaMiddleware();
 
+const composeEnhancers = composeWithDevTools({ realtime: true, port: 8111 });
+
 const bindMiddleware = (middleware: any) => {
   if (process.env.NODE_ENV !== 'production') {
     const { createLogger } = require('redux-logger');
@@ -14,7 +16,7 @@ const bindMiddleware = (middleware: any) => {
     });
     middleware = [...middleware, logger];
   }
-  return composeWithDevTools(applyMiddleware(...middleware));
+  return composeEnhancers(applyMiddleware(...middleware));
 };
 
 export function configureStore(initialState: Partial<AppState> = combineInitialState) {

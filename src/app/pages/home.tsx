@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Tabs, Icon, Drawer } from 'antd';
+import { Tabs, Icon, Drawer, Button } from 'antd';
 import AccountInfo from 'components/AccountInfo';
 import ChannelList from 'components/ChannelList';
 import TransactionList from 'components/TransactionList';
@@ -83,7 +83,12 @@ class HomePage extends React.Component<Props, State> {
             }
             key="msg"
           >
-            <button onClick={this.handleMsgInit}>Test me</button>
+            <Button onClick={this.handleMsgInit} type="primary" size="large">
+              Test native connect
+            </Button>
+            <Button onClick={this.sendMsg} type="primary" size="small">
+              sendNativeMessage
+            </Button>
             <div>
               {this.state.messages.map(msg => (
                 <p key={msg}>{msg}</p>
@@ -112,6 +117,16 @@ class HomePage extends React.Component<Props, State> {
       </div>
     );
   }
+
+  private sendMsg = () => {
+    chrome.runtime.sendNativeMessage(
+      'com.btc_inc.ln_wallet',
+      { getinfo: 'true' },
+      response => {
+        console.log('Received ' + JSON.stringify(response));
+      },
+    );
+  };
 
   private openDrawer = (
     drawerContent?: React.ReactNode,

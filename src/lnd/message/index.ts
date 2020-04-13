@@ -57,7 +57,13 @@ class LndMessageClient implements T.LndAPI {
       method,
       args,
     };
-    const res: T.LndAPIResponseMessage<M> = await browser.runtime.sendMessage(message);
+    console.log(message);
+    // switch to native messaging, instead of sending to background task
+    const res: T.LndAPIResponseMessage<M> = await browser.runtime.sendNativeMessage(
+      'com.btc_inc.ln_wallet',
+      message,
+    );
+    // const res: T.LndAPIResponseMessage<M> = await browser.runtime.sendMessage(message);
     console.log(res);
     if (res.data) {
       return res.data;
