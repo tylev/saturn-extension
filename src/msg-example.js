@@ -1,5 +1,5 @@
 (function() {
-  var application = 'com.btc_inc.test_ln';
+  var application = 'com.btcinc.saturn_dev';
   var port = null;
 
   document.getElementById('connect').addEventListener('click', function() {

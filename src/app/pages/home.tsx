@@ -120,7 +120,7 @@ class HomePage extends React.Component<Props, State> {
 
   private sendMsg = () => {
     chrome.runtime.sendNativeMessage(
-      'com.btc_inc.ln_wallet',
+      'com.btcinc.saturn_dev',
       { getinfo: 'true' },
       response => {
         console.log('Received ' + JSON.stringify(response));
@@ -179,7 +179,7 @@ class HomePage extends React.Component<Props, State> {
   private handleMsgInit = () => {
     this.loginfo('trying to init');
 
-    const application = 'com.btc_inc.ln_wallet';
+    const application = 'com.btcinc.saturn';
     let port = null;
     this.loginfo('chrome.runtime.connectNative');
 
