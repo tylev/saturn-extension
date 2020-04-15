@@ -16,16 +16,25 @@ import types from './types';
 
 export function* handleCheckHeartbeat(action: ReturnType<typeof actions.checkHeartbeat>) {
   const url = action.payload;
+  // Check heartbeat by making sure request doesn't error
   const client = new LndMessageClient(url);
+  let heartbeat;
   try {
-    yield call(client.checkHeartbeat);
+    heartbeat = yield call(client.getHeartbeat);
+    yield put({
+      type: types.CHECK_HEARTBEAT_SUCCESS,
+      payload: {
+        url,
+        response: heartbeat,
+      },
+    });
   } catch (err) {
-    if (!(err instanceof MacaroonAuthError)) {
-      yield put({ type: types.CHECK_HEARTBEAT_FAILURE, payload: err });
-      return;
-    }
+    console.error('Heartbeat failed:', err);
+    yield put({
+      type: types.CHECK_HEARTBEAT_FAILURE,
+      payload: new Error('Heartbeat did not conect'),
+    });
   }
-  yield put({ type: types.CHECK_HEARTBEAT_SUCCESS, payload: url });
 }
 
 export function* handleCheckNode(action: ReturnType<typeof actions.checkNode>) {
@@ -33,13 +42,10 @@ export function* handleCheckNode(action: ReturnType<typeof actions.checkNode>) {
   const client = new LndMessageClient(url);
   try {
     yield call(client.getInfo);
+    yield put({ type: types.CHECK_NODE_SUCCESS, payload: url });
   } catch (err) {
-    if (!(err instanceof MacaroonAuthError)) {
-      yield put({ type: types.CHECK_NODE_FAILURE, payload: err });
-      return;
-    }
+    yield put({ type: types.CHECK_NODE_FAILURE, payload: err });
   }
-  yield put({ type: types.CHECK_NODE_SUCCESS, payload: url });
 }
 
 export function* handleCheckNodes(action: ReturnType<typeof actions.checkNodes>) {

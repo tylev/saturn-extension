@@ -60,17 +60,24 @@ class OnboardingPage extends React.Component<Props, State> {
       this.props.history.replace('/');
     }
 
-    if (prevProps.isHeartbeatChecked !== this.props.isHeartbeatChecked) {
-      this.setState({ nextstep: STEP.NODE });
-    }
-
+    // rerun handleContinue if any of our checks change post splash screen
     if (
+      this.props.isHeartbeatChecked !== prevProps.isHeartbeatChecked ||
       this.props.isNodeChecked !== prevProps.isNodeChecked ||
       this.props.isAuthChecked !== prevProps.isAuthChecked
     ) {
-      if (this.props.isNodeChecked && this.props.isAuthChecked) {
-        this.setState({ nextstep: STEP.PASSWORD });
-      }
+      if (this.state.step !== STEP.SPLASH) this.handleContinue();
+    }
+  }
+
+  handleContinue() {
+    // no heartbeat
+    if (!this.props.isHeartbeatChecked) {
+      return this.setState({ step: STEP.DESKTOP });
+    }
+    // passed checks for Heartbeat, Auth, and Node
+    else {
+      return this.setState({ step: STEP.PASSWORD });
     }
   }
 
@@ -78,7 +85,7 @@ class OnboardingPage extends React.Component<Props, State> {
     const { step } = this.state;
     switch (step) {
       case STEP.SPLASH:
-        return <Splash handleContinue={() => this.changeStep(this.state.nextstep)} />;
+        return <Splash handleContinue={() => this.handleContinue()} />;
       case STEP.DESKTOP:
         return <h1>DOWNLOAD OUR APP</h1>;
       case STEP.NODE:

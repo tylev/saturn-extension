@@ -205,6 +205,14 @@ export interface Utxo {
 }
 
 // Argument & Response Types
+export interface GetHeartbeatResponse {
+  heartbeat: boolean;
+  restUrl: string;
+  macaroon: string;
+  readonly: string;
+  name?: string;
+}
+
 export interface GetInfoResponse {
   identity_pubkey: string;
   chains: string[];
@@ -408,6 +416,7 @@ export interface GetUtxosResponse {
 
 // Shared API interface
 export interface LndAPI {
+  getHeartbeat(): Promise<GetHeartbeatResponse>;
   getInfo(): Promise<GetInfoResponse>;
   getNodeInfo(pubKey: string): Promise<GetNodeInfoResponse>;
   getChannels(): Promise<GetChannelsResponse>;

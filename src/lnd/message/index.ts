@@ -16,21 +16,8 @@ class LndMessageClient implements T.LndAPI {
     this.macaroon = macaroon;
   }
 
-  checkHeartbeat = async () => {
-    const heartbeatRes = await browser.runtime.sendNativeMessage(
-      this.NATIVE_MESSAGE_HOST,
-      {
-        heartbeat: 'false',
-      },
-    );
-    console.log(heartbeatRes);
-    if (heartbeatRes.data) {
-      return heartbeatRes.data;
-    }
-    throw parseResponseError(heartbeatRes.error || 'Unknown response from extension');
-  };
-
   // Manually re-implement the methods, tedious but that's TS life for ya
+  getHeartbeat = (...args: any[]) => this.request('getHeartbeat', args) as any;
   getInfo = (...args: any[]) => this.request('getInfo', args) as any;
   getNodeInfo = (...args: any[]) => this.request('getNodeInfo', args) as any;
   getChannels = (...args: any[]) => this.request('getChannels', args) as any;
