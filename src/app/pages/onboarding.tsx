@@ -41,7 +41,7 @@ interface State {
 class OnboardingPage extends React.Component<Props, State> {
   state: State = {
     step: STEP.SPLASH,
-    nextstep: STEP.DESKTOP,
+    nextstep: STEP.PASSWORD,
   };
 
   componentDidMount() {
@@ -60,6 +60,10 @@ class OnboardingPage extends React.Component<Props, State> {
       this.props.history.replace('/');
     }
 
+    if (prevProps.isHeartbeatChecked !== this.props.isHeartbeatChecked) {
+      this.setState({ nextstep: STEP.NODE });
+    }
+
     if (
       this.props.isNodeChecked !== prevProps.isNodeChecked ||
       this.props.isAuthChecked !== prevProps.isAuthChecked
@@ -75,8 +79,8 @@ class OnboardingPage extends React.Component<Props, State> {
     switch (step) {
       case STEP.SPLASH:
         return <Splash handleContinue={() => this.changeStep(this.state.nextstep)} />;
-      // case STEP.DESKTOP:
-      //   return <Splash handleContinue={() => this.changeStep(this.state.nextstep)} />;
+      case STEP.DESKTOP:
+        return <h1>DOWNLOAD OUR APP</h1>;
       case STEP.NODE:
         return <SelectNode onConfirmNode={() => this.changeStep(STEP.PASSWORD)} />;
       case STEP.PASSWORD:

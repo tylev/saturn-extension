@@ -8,6 +8,7 @@ export * from '../errors';
 class LndMessageClient implements T.LndAPI {
   url: string;
   macaroon: undefined | T.Macaroon;
+  NATIVE_MESSAGE_HOST: string = 'com.btcinc.saturn_dev';
 
   constructor(url: string, macaroon?: T.Macaroon) {
     // Remove trailing slash for consistency
@@ -17,8 +18,10 @@ class LndMessageClient implements T.LndAPI {
 
   checkHeartbeat = async () => {
     const heartbeatRes = await browser.runtime.sendNativeMessage(
-      'com.btcinc.saturn_dev',
-      { heartbeat: 'false' },
+      this.NATIVE_MESSAGE_HOST,
+      {
+        heartbeat: 'false',
+      },
     );
     console.log(heartbeatRes);
     if (heartbeatRes.data) {
@@ -72,7 +75,7 @@ class LndMessageClient implements T.LndAPI {
     console.log(message);
     // switch to native messaging, instead of sending to background task
     const res: T.LndAPIResponseMessage<M> = await browser.runtime.sendNativeMessage(
-      'com.btcinc.saturn_dev',
+      this.NATIVE_MESSAGE_HOST,
       message,
     );
     // const res: T.LndAPIResponseMessage<M> = await browser.runtime.sendMessage(message);
