@@ -6,6 +6,7 @@ export interface NodeState {
   lib: LndAPI | null;
   url: string | null;
   isNodeChecked: boolean;
+  isAuthChecked: boolean;
   adminMacaroon: Macaroon | null;
   readonlyMacaroon: Macaroon | null;
   nodeInfo: GetInfoResponse | null;
@@ -27,6 +28,7 @@ export const INITIAL_STATE: NodeState = {
   lib: null,
   url: null,
   isNodeChecked: false,
+  isAuthChecked: false,
   adminMacaroon: null,
   readonlyMacaroon: null,
   nodeInfo: null,
@@ -82,6 +84,7 @@ export default function cryptoReducers(
     case types.CHECK_AUTH_SUCCESS:
       return {
         ...state,
+        isAuthChecked: true,
         url: action.payload.url,
         nodeInfo: action.payload.response,
         isCheckingAuth: false,
