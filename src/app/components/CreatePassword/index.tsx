@@ -19,6 +19,7 @@ interface State {
   password2: string;
   isReady: boolean;
   strength: number;
+  feedback: string;
 }
 
 export default class CreatePassword extends React.Component<Props, State> {
@@ -35,6 +36,7 @@ export default class CreatePassword extends React.Component<Props, State> {
       password2: '',
       isReady: false,
       strength: 0,
+      feedback: '',
     };
   }
 
@@ -50,8 +52,13 @@ export default class CreatePassword extends React.Component<Props, State> {
     const password1 = setPass(name, 'p1', value, this.state.password1);
     const password2 = setPass(name, 'p2', value, this.state.password2);
     const strength = zxcvbn(password1).score;
+    const feedback = zxcvbn(password1).feedback.warning
+      ? zxcvbn(password1).feedback.warning
+      : zxcvbn(password1).feedback.suggestions.length
+      ? zxcvbn(password1).feedback.suggestions[0]
+      : '';
     const isReady = password1 === password2 && strength >= 2;
-    this.setState({ password1, password2, isReady, strength });
+    this.setState({ password1, password2, isReady, strength, feedback });
   };
 
   handleCurrPassChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,6 +97,7 @@ export default class CreatePassword extends React.Component<Props, State> {
       password2,
       isReady,
       strength,
+      feedback,
     } = this.state;
     const { requestCurrentPassword } = this.props;
     const p2status =
@@ -143,6 +151,9 @@ export default class CreatePassword extends React.Component<Props, State> {
             type="password"
           />
         </Form.Item>
+        <div className="CreatePassword-feedback">
+          <p>{feedback}</p>
+        </div>
         <div className="CreatePassword-strength">
           <div className={`CreatePassword-strength-meter is-str${strength}`} />
         </div>

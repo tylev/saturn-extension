@@ -7,7 +7,7 @@ import ConfirmNode from './ConfirmNode';
 import BTCPayServer, { BTCPayServerConfig } from './BTCPayServer';
 import SelectType from './SelectType';
 import Loader from 'components/Loader';
-import { NODE_TYPE, DEFAULT_NODE_URLS } from 'utils/constants';
+import { NODE_TYPE, DEFAULT_NODE_URLS, PLACEHOLDER_MACAROONS } from 'utils/constants';
 import { urlWithoutPort } from 'utils/formatters';
 import {
   checkNode,
@@ -54,12 +54,22 @@ interface State {
 
 class SelectNode extends React.Component<Props, State> {
   state: State = {
-    adminMacaroon: '',
-    readonlyMacaroon: '',
-    nodeType: null,
+    adminMacaroon: PLACEHOLDER_MACAROONS.ADMIN,
+    readonlyMacaroon: PLACEHOLDER_MACAROONS.READONLY,
+    nodeType: NODE_TYPE.LOCAL,
     isRequestingPermission: false,
     isScanningLocal: false,
   };
+
+  componentDidMount() {
+    // if these work, we're connected by default no issues
+    this.props.checkNode(DEFAULT_NODE_URLS.LOCAL);
+    this.props.checkAuth(
+      DEFAULT_NODE_URLS.LOCAL,
+      this.state.adminMacaroon,
+      this.state.readonlyMacaroon,
+    );
+  }
 
   componentWillUpdate(nextProps: Props) {
     const finishedCheck =
@@ -118,7 +128,9 @@ class SelectNode extends React.Component<Props, State> {
           />
         );
       } else {
+        // we have nodeType, but not isRequestingPermission, not isScanningLocal, not isNodeChecked, not nodeType === NODE_TYPE.BTCPAY_SERVER
         title = 'Provide a URL';
+        // this.setUrl(DEFAULT_NODE_URLS.LOCAL);
         content = (
           <InputAddress
             submitUrl={this.setUrl}
