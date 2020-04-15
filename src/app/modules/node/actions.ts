@@ -5,6 +5,13 @@ import {
 } from './selectors';
 import types from './types';
 
+export function checkHeartbeat(url: string) {
+  return {
+    type: types.CHECK_HEARTBEAT,
+    payload: url,
+  };
+}
+
 export function checkNode(url: string) {
   return {
     type: types.CHECK_NODE,

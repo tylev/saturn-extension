@@ -5,6 +5,7 @@ import settingsTypes from 'modules/settings/types';
 export interface NodeState {
   lib: LndAPI | null;
   url: string | null;
+  isHeartbeatChecked: boolean;
   isNodeChecked: boolean;
   isAuthChecked: boolean;
   adminMacaroon: Macaroon | null;
@@ -27,6 +28,7 @@ export interface NodeState {
 export const INITIAL_STATE: NodeState = {
   lib: null,
   url: null,
+  isHeartbeatChecked: false,
   isNodeChecked: false,
   isAuthChecked: false,
   adminMacaroon: null,
@@ -51,6 +53,17 @@ export default function cryptoReducers(
   action: any,
 ): NodeState {
   switch (action.type) {
+    case types.CHECK_HEARTBEAT_SUCCESS:
+      return {
+        ...state,
+        // // url: action.payload,
+        isHeartbeatChecked: true,
+      };
+    case types.CHECK_HEARTBEAT_FAILURE:
+      return {
+        ...state,
+        isHeartbeatChecked: false,
+      };
     case types.CHECK_NODE:
     case types.CHECK_NODES:
       return {

@@ -14,6 +14,20 @@ import { channelsTypes } from 'modules/channels';
 import LndMessageClient, { MacaroonAuthError, PermissionDeniedError } from 'lnd/message';
 import types from './types';
 
+export function* handleCheckHeartbeat(action: ReturnType<typeof actions.checkHeartbeat>) {
+  const url = action.payload;
+  const client = new LndMessageClient(url);
+  try {
+    yield call(client.checkHeartbeat);
+  } catch (err) {
+    if (!(err instanceof MacaroonAuthError)) {
+      yield put({ type: types.CHECK_HEARTBEAT_FAILURE, payload: err });
+      return;
+    }
+  }
+  yield put({ type: types.CHECK_HEARTBEAT_SUCCESS, payload: url });
+}
+
 export function* handleCheckNode(action: ReturnType<typeof actions.checkNode>) {
   const url = action.payload;
   const client = new LndMessageClient(url);
@@ -238,6 +252,7 @@ export function* getNodePubKey() {
 }
 
 export default function* nodeSagas(): SagaIterator {
+  yield takeLatest(types.CHECK_HEARTBEAT, handleCheckHeartbeat);
   yield takeLatest(types.CHECK_NODE, handleCheckNode);
   yield takeLatest(types.CHECK_NODES, handleCheckNodes);
   yield takeLatest(types.UPDATE_NODE_URL, handleUpdateNodeUrl);
