@@ -6,13 +6,14 @@ import CreatePassword from 'components/CreatePassword';
 import Splash from 'components/Splash';
 import { cryptoActions } from 'modules/crypto';
 import { AppState } from 'store/reducers';
-import { DEFAULT_NODE_URLS, PLACEHOLDER_MACAROONS } from 'utils/constants';
+import { DEFAULT_NODE_URLS } from 'utils/constants';
 import { checkNode, checkAuth } from 'modules/node/actions';
 
 interface StateProps {
   password: AppState['crypto']['password'];
   isNodeChecked: AppState['node']['isNodeChecked'];
   isAuthChecked: AppState['node']['isAuthChecked'];
+  // isHeartbeatChecked: AppState['node']['isHeartbeatChecked'];
 }
 
 interface DispatchProps {
@@ -20,12 +21,14 @@ interface DispatchProps {
   setPassword: typeof cryptoActions['setPassword'];
   checkNode: typeof checkNode;
   checkAuth: typeof checkAuth;
+  // checkHeartbeat: typeof checkHeartbeat;
 }
 
 type Props = StateProps & DispatchProps & RouteComponentProps;
 
 enum STEP {
   SPLASH = 'SPLASH',
+  DESKTOP = 'DESKTOP',
   NODE = 'NODE',
   PASSWORD = 'PASSWORD',
 }
@@ -38,19 +41,18 @@ interface State {
 class OnboardingPage extends React.Component<Props, State> {
   state: State = {
     step: STEP.SPLASH,
-    nextstep: STEP.NODE,
+    nextstep: STEP.DESKTOP,
   };
 
   componentDidMount() {
     this.props.generateSalt();
 
+    // this.props.checkHeartbeat('');
+
     // if these work, we're connected by default no issues
     this.props.checkNode(DEFAULT_NODE_URLS.LOCAL);
-    this.props.checkAuth(
-      DEFAULT_NODE_URLS.LOCAL,
-      PLACEHOLDER_MACAROONS.ADMIN,
-      PLACEHOLDER_MACAROONS.READONLY,
-    );
+    // this is bad
+    this.props.checkAuth('', '', '');
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -73,6 +75,8 @@ class OnboardingPage extends React.Component<Props, State> {
     switch (step) {
       case STEP.SPLASH:
         return <Splash handleContinue={() => this.changeStep(this.state.nextstep)} />;
+      // case STEP.DESKTOP:
+      //   return <Splash handleContinue={() => this.changeStep(this.state.nextstep)} />;
       case STEP.NODE:
         return <SelectNode onConfirmNode={() => this.changeStep(STEP.PASSWORD)} />;
       case STEP.PASSWORD:
@@ -90,12 +94,14 @@ const ConnectedOnboardingPage = connect<StateProps, DispatchProps, {}, AppState>
     password: state.crypto.password,
     isNodeChecked: state.node.isNodeChecked,
     isAuthChecked: state.node.isAuthChecked,
+    // isHeartbeatChecked: state.node.isHeartbeatChecked,
   }),
   {
     generateSalt: cryptoActions.generateSalt,
     setPassword: cryptoActions.setPassword,
     checkNode,
     checkAuth,
+    // checkHeartbeat,
   },
 )(OnboardingPage);
 
