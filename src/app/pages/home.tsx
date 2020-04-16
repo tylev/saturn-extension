@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Tabs, Icon, Drawer, Button } from 'antd';
+import { Tabs, Icon, Drawer } from 'antd';
 import AccountInfo from 'components/AccountInfo';
 import ChannelList from 'components/ChannelList';
 import TransactionList from 'components/TransactionList';
@@ -32,7 +32,6 @@ interface State {
   drawerTitle: React.ReactNode | null;
   drawerContent: React.ReactNode | null;
   isDrawerOpen: boolean;
-  messages: string[];
 }
 
 class HomePage extends React.Component<Props, State> {
@@ -40,7 +39,6 @@ class HomePage extends React.Component<Props, State> {
     drawerTitle: null,
     drawerContent: null,
     isDrawerOpen: false,
-    messages: [],
   };
   drawerTimeout: any = null;
 
@@ -75,26 +73,6 @@ class HomePage extends React.Component<Props, State> {
           >
             <TransactionList onClick={this.handleTransactionClick} />
           </Tabs.TabPane>
-          <Tabs.TabPane
-            tab={
-              <>
-                <Icon type="shopping" /> Native MSG
-              </>
-            }
-            key="msg"
-          >
-            {/* <Button onClick={this.handleMsgInit} type="primary" size="large">
-              Test native connect
-            </Button> */}
-            <a target="_blank" href="saturn://mydata" type="primary" size="small">
-              sendSaturnMessage
-            </a>
-            <div>
-              {this.state.messages.map(msg => (
-                <p key={msg}>{msg}</p>
-              ))}
-            </div>
-          </Tabs.TabPane>
         </Tabs>
 
         <Drawer
@@ -117,16 +95,6 @@ class HomePage extends React.Component<Props, State> {
       </div>
     );
   }
-
-  private sendMsg = () => {
-    chrome.runtime.sendNativeMessage(
-      'com.btcinc.saturn_dev',
-      { getinfo: 'true' },
-      response => {
-        console.log('Received ' + JSON.stringify(response));
-      },
-    );
-  };
 
   private openDrawer = (
     drawerContent?: React.ReactNode,
@@ -168,40 +136,6 @@ class HomePage extends React.Component<Props, State> {
 
   private handleTransactionClick = (tx: AnyTransaction) => {
     this.openDrawer(<TransactionInfo tx={tx} />, 'Transaction Details');
-  };
-
-  private loginfo = (msg: string) => {
-    console.log(msg);
-    const messages = this.state.messages.concat(JSON.stringify(msg));
-    this.setState({ ...this.state, messages });
-  };
-
-  private handleMsgInit = () => {
-    this.loginfo('trying to init');
-
-    const application = 'com.btcinc.saturn';
-    let port = null;
-    this.loginfo('chrome.runtime.connectNative');
-
-    port = chrome.runtime.connectNative(application);
-
-    port.onMessage.addListener(this.loginfo);
-
-    port.onDisconnect.addListener(e => {
-      this.loginfo('unexpected disconnect' + e.name);
-
-      port = null;
-    });
-
-    const msg = { getinfo: 'true' };
-
-    if (port) {
-      this.loginfo('port.postMessage');
-      port.postMessage(msg);
-    } else {
-      this.loginfo('chrome.runtime.sendNativeMessage');
-      chrome.runtime.sendNativeMessage(application, msg, this.loginfo);
-    }
   };
 
   private retryConnection = () => {

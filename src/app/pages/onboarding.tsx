@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router';
 import SelectNode from 'components/SelectNode';
+import DownloadNode from 'components/DownloadNode';
+
 import CreatePassword from 'components/CreatePassword';
 import Splash from 'components/Splash';
 import { cryptoActions } from 'modules/crypto';
@@ -49,7 +51,6 @@ class OnboardingPage extends React.Component<Props, State> {
 
   componentDidMount() {
     this.props.generateSalt();
-
     this.props.checkHeartbeat('');
   }
 
@@ -104,7 +105,7 @@ class OnboardingPage extends React.Component<Props, State> {
       case STEP.SPLASH:
         return <Splash handleContinue={() => this.handleContinue()} />;
       case STEP.DESKTOP:
-        return <h1>DOWNLOAD OUR APP</h1>;
+        return <DownloadNode handleContinue={() => this.props.checkHeartbeat('')} />;
       case STEP.NODE:
         return <SelectNode onConfirmNode={() => this.changeStep(STEP.PASSWORD)} />;
       case STEP.PASSWORD:

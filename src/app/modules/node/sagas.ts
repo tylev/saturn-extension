@@ -28,7 +28,7 @@ export function* handleCheckHeartbeat(action: ReturnType<typeof actions.checkHea
       },
     });
   } catch (err) {
-    console.error('Heartbeat failed:', err);
+    // console.error('Heartbeat failed:', err);
     yield put({
       type: types.CHECK_HEARTBEAT_FAILURE,
       payload: new Error('Heartbeat did not conect'),

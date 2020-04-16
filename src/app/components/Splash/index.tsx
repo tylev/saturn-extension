@@ -24,8 +24,8 @@ export default class Splash extends React.Component<Props> {
     return (
       <div className="Splash">
         <div className="Splash-inner">
-          <h2>Joule</h2>
-          <h3>Lightning-charge your browser</h3>
+          <h2>Saturn</h2>
+          <h3>Bitcoin-enabled Web Browsing</h3>
           {/* <Logo /> */}
           <ul>
             <li>Send payments in-browser</li>
