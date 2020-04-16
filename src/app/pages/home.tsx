@@ -7,7 +7,7 @@ import TransactionList from 'components/TransactionList';
 import SendForm from 'components/SendForm';
 import InvoiceForm from 'components/InvoiceForm';
 import TransactionInfo from 'components/TransactionInfo';
-import ConnectionFailureModal from 'components/ConnectionFailureModal';
+import SaturnConnectionFailureModal from 'components/SaturnConnectionFailureModal';
 import { AppState } from 'store/reducers';
 import ChannelInfo from 'components/ChannelInfo';
 import { ChannelWithNode } from 'modules/channels/types';
@@ -83,12 +83,12 @@ class HomePage extends React.Component<Props, State> {
             }
             key="msg"
           >
-            <Button onClick={this.handleMsgInit} type="primary" size="large">
+            {/* <Button onClick={this.handleMsgInit} type="primary" size="large">
               Test native connect
-            </Button>
-            <Button onClick={this.sendMsg} type="primary" size="small">
-              sendNativeMessage
-            </Button>
+            </Button> */}
+            <a target="_blank" href="saturn://mydata" type="primary" size="small">
+              sendSaturnMessage
+            </a>
             <div>
               {this.state.messages.map(msg => (
                 <p key={msg}>{msg}</p>
@@ -108,7 +108,7 @@ class HomePage extends React.Component<Props, State> {
         </Drawer>
 
         {fetchAccountInfoError && (
-          <ConnectionFailureModal
+          <SaturnConnectionFailureModal
             nodeUrl={nodeUrl}
             error={fetchAccountInfoError}
             onRetry={this.retryConnection}

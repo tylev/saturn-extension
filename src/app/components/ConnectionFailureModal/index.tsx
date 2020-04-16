@@ -31,6 +31,9 @@ export default class ConnectionFailureModal extends React.Component<Props> {
             <p>
               If your certificate is setup correctly, you may need to update your
               macaroons in <Link to="/settings">Settings</Link>
+              <a target="_blank" href="saturn://abcd">
+                LAUNCH SATURN
+              </a>
             </p>
           </>
         }
