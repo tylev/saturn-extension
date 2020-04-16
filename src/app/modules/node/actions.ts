@@ -12,10 +12,10 @@ export function checkHeartbeat(url: string) {
   };
 }
 
-export function checkNode(url: string) {
+export function checkNode(url: string, admin: Macaroon) {
   return {
     type: types.CHECK_NODE,
-    payload: url,
+    payload: { url, admin },
   };
 }
 

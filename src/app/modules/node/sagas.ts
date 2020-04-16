@@ -24,8 +24,7 @@ export function* handleCheckHeartbeat(action: ReturnType<typeof actions.checkHea
     yield put({
       type: types.CHECK_HEARTBEAT_SUCCESS,
       payload: {
-        url,
-        response: heartbeat,
+        ...heartbeat,
       },
     });
   } catch (err) {
@@ -38,8 +37,8 @@ export function* handleCheckHeartbeat(action: ReturnType<typeof actions.checkHea
 }
 
 export function* handleCheckNode(action: ReturnType<typeof actions.checkNode>) {
-  const url = action.payload;
-  const client = new LndMessageClient(url);
+  const { url, admin } = action.payload;
+  const client = new LndMessageClient(url, admin);
   try {
     yield call(client.getInfo);
     yield put({ type: types.CHECK_NODE_SUCCESS, payload: url });
@@ -125,6 +124,7 @@ export function* handleCheckAuth(action: ReturnType<typeof actions.checkAuth>) {
       response: nodeInfo,
     },
   });
+  yield put(actions.setNode(url, admin as string, readonly as string));
 }
 
 export function* handleUpdateNodeUrl(action: ReturnType<typeof actions.updateNodeUrl>) {
@@ -148,7 +148,7 @@ export function* handleUpdateNodeUrl(action: ReturnType<typeof actions.updateNod
     );
 
     // connect to the url to test if it's working
-    yield put(actions.checkNode(newUrl));
+    yield put(actions.checkNode(newUrl, adminMacaroon));
     const checkAction = yield take([types.CHECK_NODE_SUCCESS, types.CHECK_NODE_FAILURE]);
 
     // check for an error connecting to the node

@@ -56,7 +56,9 @@ export default function cryptoReducers(
     case types.CHECK_HEARTBEAT_SUCCESS:
       return {
         ...state,
-        // // url: action.payload,
+        url: action.payload.url,
+        adminMacaroon: action.payload.macaroon,
+        readonlyMacaroon: action.payload.readonly,
         isHeartbeatChecked: true,
       };
     case types.CHECK_HEARTBEAT_FAILURE:
@@ -68,7 +70,7 @@ export default function cryptoReducers(
     case types.CHECK_NODES:
       return {
         ...state,
-        url: null,
+        // url: null,
         isNodeChecked: false,
         isCheckingNode: true,
         checkNodeError: null,

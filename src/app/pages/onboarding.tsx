@@ -6,14 +6,16 @@ import CreatePassword from 'components/CreatePassword';
 import Splash from 'components/Splash';
 import { cryptoActions } from 'modules/crypto';
 import { AppState } from 'store/reducers';
-import { DEFAULT_NODE_URLS } from 'utils/constants';
-import { checkNode, checkAuth, checkHeartbeat } from 'modules/node/actions';
+import { checkNode, checkAuth, checkHeartbeat, setNode } from 'modules/node/actions';
 
 interface StateProps {
   password: AppState['crypto']['password'];
   isNodeChecked: AppState['node']['isNodeChecked'];
   isAuthChecked: AppState['node']['isAuthChecked'];
   isHeartbeatChecked: AppState['node']['isHeartbeatChecked'];
+  url: AppState['node']['url'];
+  adminMacaroon: AppState['node']['adminMacaroon'];
+  readonlyMacaroon: AppState['node']['readonlyMacaroon'];
 }
 
 interface DispatchProps {
@@ -22,6 +24,7 @@ interface DispatchProps {
   checkNode: typeof checkNode;
   checkAuth: typeof checkAuth;
   checkHeartbeat: typeof checkHeartbeat;
+  setNode: typeof setNode;
 }
 
 type Props = StateProps & DispatchProps & RouteComponentProps;
@@ -48,16 +51,23 @@ class OnboardingPage extends React.Component<Props, State> {
     this.props.generateSalt();
 
     this.props.checkHeartbeat('');
-
-    // if these work, we're connected by default no issues
-    this.props.checkNode(DEFAULT_NODE_URLS.LOCAL);
-    // this is bad
-    this.props.checkAuth('', '', '');
   }
 
   componentDidUpdate(prevProps: Props) {
     if (prevProps.password !== this.props.password) {
       this.props.history.replace('/');
+    }
+
+    if (this.props.isHeartbeatChecked !== prevProps.isHeartbeatChecked) {
+      this.props.checkNode(this.props.url, this.props.adminMacaroon);
+    }
+
+    if (this.props.isNodeChecked !== prevProps.isNodeChecked) {
+      this.props.checkAuth(
+        this.props.url,
+        this.props.adminMacaroon,
+        this.props.readonlyMacaroon,
+      );
     }
 
     // rerun handleContinue if any of our checks change post splash screen
@@ -74,9 +84,16 @@ class OnboardingPage extends React.Component<Props, State> {
     // no heartbeat
     if (!this.props.isHeartbeatChecked) {
       return this.setState({ step: STEP.DESKTOP });
+    } else if (!this.props.isNodeChecked || !this.props.isAuthChecked) {
+      return this.setState({ step: STEP.NODE });
     }
     // passed checks for Heartbeat, Auth, and Node
     else {
+      // this.props.setNode(
+      //   this.props.url,
+      //   this.props.adminMacaroon,
+      //   this.props.readonlyMacaroon,
+      // );
       return this.setState({ step: STEP.PASSWORD });
     }
   }
@@ -106,6 +123,9 @@ const ConnectedOnboardingPage = connect<StateProps, DispatchProps, {}, AppState>
     isNodeChecked: state.node.isNodeChecked,
     isAuthChecked: state.node.isAuthChecked,
     isHeartbeatChecked: state.node.isHeartbeatChecked,
+    url: state.node.url,
+    adminMacaroon: state.node.adminMacaroon,
+    readonlyMacaroon: state.node.readonlyMacaroon,
   }),
   {
     generateSalt: cryptoActions.generateSalt,
@@ -113,6 +133,7 @@ const ConnectedOnboardingPage = connect<StateProps, DispatchProps, {}, AppState>
     checkNode,
     checkAuth,
     checkHeartbeat,
+    setNode,
   },
 )(OnboardingPage);
 
