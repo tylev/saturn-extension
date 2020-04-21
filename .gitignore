@@ -8,6 +8,7 @@
 /dist
 /dist-dev
 /dist-prod
+/extension
 
 # misc
 .DS_Store

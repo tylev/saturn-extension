@@ -39,7 +39,8 @@ class Unit extends React.Component<Props> {
       isNoFiat,
       chain,
     } = this.props;
-
+    // fix grpc responses to ensure string
+    value = value.toString();
     // If we get a non-number, just early return with it plaintext
     if (Number.isNaN(parseInt(value, 10))) {
       return <span className="Unit">{value}</span>;

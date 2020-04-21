@@ -26,9 +26,10 @@ export default class DownloadNode extends React.Component<Props, State> {
           {/* <Logo /> */}
           <p>Once you've downloaded the app:</p>
           <ol>
-            <li>Install the application</li>
+            <li>Install the application (drag it to your Applications folder)</li>
             <li>Open it and create your first wallet</li>
-            <li>Return here and continue the setup</li>
+            <li>Set a password and unlock your wallet</li>
+            <li>Return to this page and continue the setup</li>
           </ol>
           <div className="DownloadNode-controls">
             <Button block size="large" onClick={this.props.handleContinue}>
@@ -54,7 +55,7 @@ export default class DownloadNode extends React.Component<Props, State> {
               size="large"
               type="primary"
               onClick={this.handleDownload}
-              href="https://github.com/tylev/saturn-desktop"
+              href="https://github.com/tylev/saturn-desktop/releases/tag/v0.7.0-alpha"
               target="_blank"
             >
               Download for MacOS

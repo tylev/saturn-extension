@@ -1,6 +1,6 @@
 import { GetInfoResponse } from 'webln';
 import runSelector from '../content_script/runSelector';
-import { LndHttpClient } from 'lnd/http';
+import LndMessageClient from 'lnd/message';
 import { selectSyncedUnencryptedNodeState } from 'modules/node/selectors';
 
 export default async function getNodeInfo(): Promise<GetInfoResponse> {
@@ -13,7 +13,7 @@ export default async function getNodeInfo(): Promise<GetInfoResponse> {
     throw new Error('Node has not been set up');
   }
 
-  const client = new LndHttpClient(state.url, state.readonlyMacaroon);
+  const client = new LndMessageClient(state.url, state.readonlyMacaroon);
   const info = await client.getInfo();
   const moreInfo = await client.getNodeInfo(info.identity_pubkey);
   return {

@@ -1,8 +1,9 @@
 {
   "manifest_version": 2,
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuoahCXEeSHlkUrz6qTuHEuzbZYIVCxcpBzyX//RUUUgw8nAIaYJZoYRszVGTYgesleQLqNh4DyglG83CTVxIKMx1I00RnqBu9f2tNO1u/vNvp6z5uSWRKrDP55KExmeepzKf1bikD7SYQJ06Miu5jBu+zJgndwiYpZeUiH8n1qUj1xs6mIfCPKcMRATQLUz9v2uYDZX5CTJ3/WNPvMrMzPKRhlBxXygfhq83dFZvhD9wlOcBATOaMtx9BjztzyQyPuvPLLBzNVRbWn6ClGoJHgqhfbxI8VnvaGY486YojvcSmz/PGujRjltyVh7kZ+cA2oH31N0sGlO0LUcPTtsKbQIDAQAB",
   "name": "Saturn",
-  "description": "Make payments and use your Lightning identity in the browser",
-  "version": "0.6.0",
+  "description": "Use the Bitcoin Lightning Network in your browser",
+  "version": "0.6.0.1",
   "icons": {
     "16": "icon16.png",
     "48": "icon48.png",

@@ -1,10 +1,10 @@
 {
-  "name": "joule-extension",
-  "version": "0.5.2",
-  "description": "Lightning charge your browser by connecting your lightning node",
+  "name": "saturn-extension",
+  "version": "0.5.3",
+  "description": "Use the Bitcoin Lightning Network in your browser.",
   "homepage": "https://lightningjoule.com",
-  "bugs": "https://github.com/joule-labs/joule-extension/issues",
-  "repository": "github:joule-labs/joule-extension",
+  "bugs": "https://github.com/tylev/saturn-extension/issues",
+  "repository": "github:tylev/saturn-extension",
   "license": "MIT",
   "author": {
     "name": "William O'Beirne",
@@ -16,9 +16,7 @@
     "chrome-extension",
     "lightning",
     "bitcoin",
-    "decred",
-    "groestlcoin",
-    "litecoin"
+    "wallet"
   ],
   "scripts": {
     "dev": "rimraf dist-dev && cross-env NODE_ENV=development webpack -w",
