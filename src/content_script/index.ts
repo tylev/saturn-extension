@@ -41,8 +41,6 @@ if (shouldInject()) {
   });
 }
 
-// Intercept any `lightning:{paymentReqest}` requests
-// TODO: Get ts to type this function
 if (document) {
   document.addEventListener('DOMContentLoaded', () => {
     document.body.addEventListener('click', ev => {
@@ -50,7 +48,8 @@ if (document) {
       if (!target || !target.closest) {
         return;
       }
-
+      // Intercept any `lightning:{paymentReqest}` requests
+      // TODO: Get ts to type this function
       const lightningLink = target.closest('[href^="lightning:"]');
       if (lightningLink) {
         const href = lightningLink.getAttribute('href') as string;
@@ -60,9 +59,53 @@ if (document) {
           prompt: true,
           type: PROMPT_TYPE.PAYMENT,
           origin: getOriginData(),
-          args: { paymentRequest },
+          args: {
+            paymentRequest,
+          },
         });
         ev.preventDefault();
+      }
+
+      // intercept any https://get.b.tc/paylink/* links
+      const getPaidLink = target.closest('[href^="https://get.b.tc/paylink/"]');
+      if (getPaidLink) {
+        const href = getPaidLink.getAttribute('href') as string;
+        // chrome.browserAction.setBadgeText({ text: 'abc' });
+        ev.preventDefault();
+        // get invoice data
+        browser.runtime
+          .sendMessage({
+            application: 'Joule',
+            prompt: true,
+            type: PROMPT_TYPE.INVOICE,
+            origin: getOriginData(),
+            args: {},
+          })
+          .then(res => {
+            // post it to the listening server
+            console.log(res);
+            fetch('http://localhost:3001/api/getbtc', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ ...res, href }),
+            }).then(() => {
+              // Notify user that submission is successful via background script
+              browser.runtime.sendMessage({
+                application: 'Joule',
+                notification: true,
+                origin: getOriginData(),
+                args: {
+                  title: 'Saturn',
+                  message: 'Submission successful!',
+                  iconUrl: '/icon48.png',
+                  type: 'basic',
+                },
+              });
+            });
+          });
+        // alert(`incertecpted ${href}`);
       }
     });
   });

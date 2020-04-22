@@ -7,7 +7,6 @@ export default async function respondWithoutPrompt(data: any): Promise<boolean> 
     case PROMPT_TYPE.AUTHORIZE:
       return handleAuthorizePrompt(data);
   }
-
   return false;
 }
 

@@ -3,6 +3,7 @@ import { browser, Runtime } from 'webextension-polyfill-ts';
 import { OriginData } from 'utils/prompt';
 import { PROMPT_TYPE } from '../webln/types';
 import getNodeInfo from './getNodeInfo';
+import getBgInvoice from './getBgInvoice';
 
 interface PromptRequest {
   type: string;
@@ -63,6 +64,12 @@ export default function handlePrompts() {
     // Special case -- get info requires no prompt, just respond
     if (request.type === PROMPT_TYPE.INFO) {
       return getNodeInfo().then(data => ({ data }));
+    }
+
+    // Special case to handle creating an invoice in the background
+    if (request.type === PROMPT_TYPE.INVOICE) {
+      // TODO: Check if domain is approved or not
+      return getBgInvoice().then(data => ({ data }));
     }
 
     // WebLNProvider request, will require window open

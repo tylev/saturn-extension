@@ -1,9 +1,9 @@
 {
   "manifest_version": 2,
-  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuoahCXEeSHlkUrz6qTuHEuzbZYIVCxcpBzyX//RUUUgw8nAIaYJZoYRszVGTYgesleQLqNh4DyglG83CTVxIKMx1I00RnqBu9f2tNO1u/vNvp6z5uSWRKrDP55KExmeepzKf1bikD7SYQJ06Miu5jBu+zJgndwiYpZeUiH8n1qUj1xs6mIfCPKcMRATQLUz9v2uYDZX5CTJ3/WNPvMrMzPKRhlBxXygfhq83dFZvhD9wlOcBATOaMtx9BjztzyQyPuvPLLBzNVRbWn6ClGoJHgqhfbxI8VnvaGY486YojvcSmz/PGujRjltyVh7kZ+cA2oH31N0sGlO0LUcPTtsKbQIDAQAB",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnMb8WX4PVGpwvBLYuaAiftKhUMdpkgwsc4wOgBUhxlULIA5GtoALTZaJ4E12lZos17GQUM1fWwaXgued1eARieDE3cm2tqE7WkwRYP0IHt69DA0Kz8yNEUjHiAqCU7Zl0raEFt3exLu78CJGmy27GneSlHoPteJ04o9bUx24pN86yF/hGVOE4hNIq957FpM80S8o/pQf0o1nErPJ+z8PQWo/gwscYXcLTjHQH8sDfCJGKlrd9A0HRWE+0K+5sIA9EX+lt2ioFNWJjXYmr31JE9IQDzj9nWm0DjJ6SR0+iDWbdkJIq8NODBtu4JMLu7y2k642cJ5wDIzrGESZwLPrMQIDAQAB",
   "name": "Saturn",
   "description": "Use the Bitcoin Lightning Network in your browser",
-  "version": "0.6.0.1",
+  "version": "0.6.0.2",
   "icons": {
     "16": "icon16.png",
     "48": "icon48.png",
@@ -35,17 +35,20 @@
   "web_accessible_resources": ["inpage_script.js"],
   "content_security_policy": "connect-src ws://localhost:8097",
   "permissions": [
+    "notifications",
+    "alarms",
     "storage",
     "clipboardWrite",
     "activeTab",
     "contextMenus",
     "nativeMessaging"
   ],
-  "optional_permissions": ["notifications", "http://*/", "https://*/"],
+  "optional_permissions": ["http://*/", "https://*/"],
   "applications": {
     "gecko": {
       "id": "joule@lightningjoule.com",
       "strict_min_version": "57.0"
     }
-  }
+  },
+  "dev_key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuoahCXEeSHlkUrz6qTuHEuzbZYIVCxcpBzyX//RUUUgw8nAIaYJZoYRszVGTYgesleQLqNh4DyglG83CTVxIKMx1I00RnqBu9f2tNO1u/vNvp6z5uSWRKrDP55KExmeepzKf1bikD7SYQJ06Miu5jBu+zJgndwiYpZeUiH8n1qUj1xs6mIfCPKcMRATQLUz9v2uYDZX5CTJ3/WNPvMrMzPKRhlBxXygfhq83dFZvhD9wlOcBATOaMtx9BjztzyQyPuvPLLBzNVRbWn6ClGoJHgqhfbxI8VnvaGY486YojvcSmz/PGujRjltyVh7kZ+cA2oH31N0sGlO0LUcPTtsKbQIDAQAB"
 }

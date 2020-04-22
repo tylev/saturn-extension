@@ -99,10 +99,10 @@ export function* handleCheckAuth(action: ReturnType<typeof actions.checkAuth>) {
 
   // Test admin by intentionally send an invalid payment,
   // but make sure we didn't error out with a macaroon auth error
-  // TODO: Replace with sign message once REST supports it
   client = new LndMessageClient(url, admin);
   try {
     yield call(client.sendPayment, { payment_request: 'testing admin' });
+    // yield call(client.signMessage, { msg: 'testing admin' });
   } catch (err) {
     console.log(err);
     if (
