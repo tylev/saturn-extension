@@ -4,6 +4,7 @@ import injectScript from './injectScript';
 import respondWithoutPrompt from './respondWithoutPrompt';
 import { PROMPT_TYPE } from '../webln/types';
 import { getOriginData } from 'utils/prompt';
+import { debug } from 'util';
 
 if (shouldInject()) {
   injectScript();
@@ -66,16 +67,20 @@ if (document) {
         ev.preventDefault();
       }
 
-      // intercept any https://get.b.tc/paylink/* links
-      const getPaidLink = target.closest('[href^="https://get.b.tc/paylink/"]');
+      // intercept any https://livestream-poll.now.sh/paylink/* links
+      // const getPaidLink = target.closest(
+      //   '[href^="https://livestream-poll.now.sh/paylink"]',
+      // );
+      const getPaidLink = target.closest('[href^="/paylink/"]');
+      console.log(target);
       if (getPaidLink) {
+        ev.preventDefault();
         const href = getPaidLink.getAttribute('href') as string;
-        // https://get.b.tc/paylink/memo/100
+        // https://livestream-poll.now.sh//paylink/memo/100
         const parseHref = href.replace(/\/$/, '').split('/');
         const amount = parseHref[parseHref.length - 1];
         const defaultMemo = parseHref[parseHref.length - 2];
         // chrome.browserAction.setBadgeText({ text: 'abc' });
-        ev.preventDefault();
         // get invoice data
         browser.runtime
           .sendMessage({
@@ -83,12 +88,15 @@ if (document) {
             prompt: true,
             type: PROMPT_TYPE.INVOICE,
             origin: getOriginData(),
-            args: { amount, defaultMemo },
+            args: {
+              amount,
+              defaultMemo,
+            },
           })
           .then(res => {
             // post it to the listening server
             console.log(res);
-            fetch('http://localhost:3001/api/getbtc', {
+            fetch('http://localhost:3000/api/invoice', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
