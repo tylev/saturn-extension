@@ -72,7 +72,6 @@ if (document) {
       //   '[href^="https://livestream-poll.now.sh/paylink"]',
       // );
       const getPaidLink = target.closest('[href^="/paylink/"]');
-      console.log(target);
       if (getPaidLink) {
         ev.preventDefault();
         const href = getPaidLink.getAttribute('href') as string;
@@ -96,7 +95,7 @@ if (document) {
           .then(res => {
             // post it to the listening server
             console.log(res);
-            fetch('http://localhost:3000/api/invoice', {
+            fetch('https://livestream-poll.now.sh/api/invoice', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
