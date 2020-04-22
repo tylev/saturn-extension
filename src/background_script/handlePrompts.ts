@@ -69,7 +69,8 @@ export default function handlePrompts() {
     // Special case to handle creating an invoice in the background
     if (request.type === PROMPT_TYPE.INVOICE) {
       // TODO: Check if domain is approved or not
-      return getBgInvoice().then(data => ({ data }));
+
+      return getBgInvoice(request.args).then(data => ({ data }));
     }
 
     // WebLNProvider request, will require window open

@@ -70,6 +70,10 @@ if (document) {
       const getPaidLink = target.closest('[href^="https://get.b.tc/paylink/"]');
       if (getPaidLink) {
         const href = getPaidLink.getAttribute('href') as string;
+        // https://get.b.tc/paylink/memo/100
+        const parseHref = href.replace(/\/$/, '').split('/');
+        const amount = parseHref[parseHref.length - 1];
+        const defaultMemo = parseHref[parseHref.length - 2];
         // chrome.browserAction.setBadgeText({ text: 'abc' });
         ev.preventDefault();
         // get invoice data
@@ -79,7 +83,7 @@ if (document) {
             prompt: true,
             type: PROMPT_TYPE.INVOICE,
             origin: getOriginData(),
-            args: {},
+            args: { amount, defaultMemo },
           })
           .then(res => {
             // post it to the listening server
@@ -89,7 +93,10 @@ if (document) {
               headers: {
                 'Content-Type': 'application/json',
               },
-              body: JSON.stringify({ ...res, href }),
+              body: JSON.stringify({
+                ...res,
+                href,
+              }),
             }).then(() => {
               // Notify user that submission is successful via background script
               browser.runtime.sendMessage({
