@@ -22,7 +22,8 @@ export default async function getBgInvoice(
 
   // Kickoff alarm to check when this invoice gets paid
   browser.alarms.create('checkpayments', {
-    when: Date.now() + 100,
+    // check for invoice payment in 2 seconds
+    when: Date.now() + 2000,
     periodInMinutes: 1,
   });
 

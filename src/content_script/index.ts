@@ -75,7 +75,7 @@ if (document) {
       if (getPaidLink) {
         ev.preventDefault();
         const href = getPaidLink.getAttribute('href') as string;
-        // https://livestream-poll.now.sh//paylink/memo/100
+        // https://livestream-poll.now.s//paylink/memo/100
         const parseHref = href.replace(/\/$/, '').split('/');
         const amount = parseHref[parseHref.length - 1];
         const defaultMemo = parseHref[parseHref.length - 2];
@@ -95,6 +95,7 @@ if (document) {
           .then(res => {
             // post it to the listening server
             console.log(res);
+            // TODO fix this hardcode
             fetch('https://livestream-poll.now.sh/api/invoice', {
               method: 'POST',
               headers: {

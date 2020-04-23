@@ -22,9 +22,7 @@ const babelLoader = tsxRule.use.find(l => (l.loader = 'babel-loader'));
 babelLoader.options.cacheDirectory = true;
 babelLoader.options.plugins.push('react-hot-loader/babel');
 // add HMR plugin to the config
-// babelLoader.options.config.plugins = [new webpack.HotModuleReplacementPlugin()].concat(
-//   config.plugins || [],
-// );
+config.plugins = [new webpack.HotModuleReplacementPlugin()].concat(config.plugins || []);
 
 var compiler = webpack(config);
 
