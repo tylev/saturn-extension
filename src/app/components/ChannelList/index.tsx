@@ -32,7 +32,7 @@ class ChannelList extends React.Component<Props, State> {
     isChannelModalOpen: false,
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     if (!this.props.channels) {
       this.props.getChannels();
     }

@@ -28,7 +28,7 @@ export default class BTCPayServer extends React.Component<Props, State> {
     isSubmitting: false,
   };
 
-  componentWillUpdate(nextProps: Props) {
+  UNSAFE_componentWillUpdate(nextProps: Props) {
     if (nextProps.error && this.props.error !== nextProps.error) {
       message.error(nextProps.error.message);
     }

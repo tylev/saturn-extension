@@ -58,11 +58,11 @@ class PaymentPrompt extends React.Component<Props, State> {
     };
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.props.checkPaymentRequest(this.paymentRequest);
   }
 
-  componentWillUpdate(nextProps: Props) {
+  UNSAFE_componentWillUpdate(nextProps: Props) {
     const { denomination } = this.state;
     const oldPr = this.props.paymentRequests[this.paymentRequest];
     const newPr = nextProps.paymentRequests[this.paymentRequest];

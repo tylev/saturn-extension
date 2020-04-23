@@ -4,6 +4,7 @@ import { Tabs, Icon, Drawer } from 'antd';
 import AccountInfo from 'components/AccountInfo';
 import ChannelList from 'components/ChannelList';
 import TransactionList from 'components/TransactionList';
+import WelcomeList from 'components/WelcomeList';
 import SendForm from 'components/SendForm';
 import InvoiceForm from 'components/InvoiceForm';
 import TransactionInfo from 'components/TransactionInfo';
@@ -52,7 +53,17 @@ class HomePage extends React.Component<Props, State> {
           onSendClick={this.openSendForm}
           onInvoiceClick={this.openInvoiceForm}
         />
-        <Tabs defaultActiveKey="channels">
+        <Tabs defaultActiveKey="welcome">
+          <Tabs.TabPane
+            tab={
+              <>
+                <Icon type="home" /> Welcome
+              </>
+            }
+            key="welcome"
+          >
+            <WelcomeList />
+          </Tabs.TabPane>
           <Tabs.TabPane
             tab={
               <>

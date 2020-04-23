@@ -43,7 +43,7 @@ class NodeSettings extends React.Component<Props, State> {
     };
   }
 
-  componentWillUpdate(nextProps: Props) {
+  UNSAFE_componentWillUpdate(nextProps: Props) {
     const {
       isNodeChecked,
       salt,

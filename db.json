@@ -1,0 +1,25 @@
+{
+  "cards": [
+    {
+      "title": "Stack your first sats!",
+      "description": "Complete this survey",
+      "link": "https: //livestream-poll.now.sh/",
+      "cta": "Earn",
+      "icon": "qrcode"
+    },
+    {
+      "title": "Watch the Bitcoin Halving Livestream!",
+      "description": "A 21-hour livestream celebrating the Bitcoin halving",
+      "link": "https://www.bitcoinhalving.com/",
+      "cta": "Register",
+      "icon": "qrcode"
+    },
+    {
+      "title": "Explore more lightning apps!",
+      "description": "View the lapps directory",
+      "link": "https: //lapps.co",
+      "cta": "Explore",
+      "icon": "qrcode"
+    }
+  ]
+}

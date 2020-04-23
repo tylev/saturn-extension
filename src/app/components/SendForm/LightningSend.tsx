@@ -71,7 +71,7 @@ class LightningSend extends React.Component<Props, State> {
     this.props.resetSendPayment();
   }
 
-  componentWillUpdate(nextProps: Props) {
+  UNSAFE_componentWillUpdate(nextProps: Props) {
     const { paymentRequestValue } = this.state;
     const oldPr = this.props.paymentRequests[paymentRequestValue];
     const newPr = nextProps.paymentRequests[paymentRequestValue];

@@ -38,7 +38,7 @@ class PeersModal extends React.Component<Props, State> {
     isAddingPeer: false,
   };
 
-  componentWillUpdate(nextProps: Props, nextState: State) {
+  UNSAFE_componentWillUpdate(nextProps: Props, nextState: State) {
     if (nextProps.isVisible && !this.props.isVisible) {
       this.resetForm();
       this.props.getPeers();

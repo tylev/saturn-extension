@@ -54,7 +54,7 @@ const INITIAL_STATE: State = {
 class OpenChannelModal extends React.Component<Props, State> {
   state: State = { ...INITIAL_STATE };
 
-  componentWillUpdate(nextProps: Props, nextState: State) {
+  UNSAFE_componentWillUpdate(nextProps: Props, nextState: State) {
     const { isVisible, newChannelTxIds, openChannelError } = nextProps;
     const { isOpeningChannel, address } = nextState;
 

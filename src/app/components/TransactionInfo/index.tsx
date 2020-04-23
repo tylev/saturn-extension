@@ -34,7 +34,7 @@ interface OwnProps {
 type Props = StateProps & DispatchProps & OwnProps;
 
 class TransactionInfo extends React.Component<Props> {
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     if (!this.props.account) {
       this.props.getAccountInfo();
     }

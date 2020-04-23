@@ -32,7 +32,7 @@ interface OwnProps {
 type Props = StateProps & DispatchProps & OwnProps;
 
 class TransactionList extends React.Component<Props> {
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { payments, invoices, transactions } = this.props;
     if (!payments || !invoices || !transactions) {
       this.props.getTransactions();

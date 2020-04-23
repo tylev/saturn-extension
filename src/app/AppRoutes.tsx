@@ -92,7 +92,7 @@ interface StateProps {
 type Props = StateProps & RouteComponentProps;
 
 class Routes extends React.Component<Props> {
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.redirectAsNeeded();
   }
 

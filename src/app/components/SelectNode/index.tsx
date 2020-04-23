@@ -61,7 +61,7 @@ class SelectNode extends React.Component<Props, State> {
     isScanningLocal: false,
   };
 
-  componentWillUpdate(nextProps: Props) {
+  UNSAFE_componentWillUpdate(nextProps: Props) {
     const finishedCheck =
       nextProps.url !== this.props.url ||
       nextProps.checkNodeError !== this.props.checkNodeError;

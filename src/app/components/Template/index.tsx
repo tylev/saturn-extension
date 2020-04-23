@@ -33,7 +33,7 @@ export default class Template extends React.Component<Props> {
             {title ? (
               <h1 className="Template-header-title">{title}</h1>
             ) : (
-              <div className="Template-header-alpha">A L P H A</div>
+              <div className="Template-header-alpha">S T A C K S A T S</div>
             )}
             <div className="Template-header-menu">
               <SettingsMenu />

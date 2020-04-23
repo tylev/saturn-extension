@@ -30,7 +30,7 @@ interface OwnProps {
 type Props = StateProps & DispatchProps & OwnProps;
 
 class DepositModal extends React.Component<Props> {
-  componentWillUpdate(nextProps: Props) {
+  UNSAFE_componentWillUpdate(nextProps: Props) {
     const { chain } = this.props;
     if (!this.props.isOpen && nextProps.isOpen) {
       // Fire even if depositAddress is in store in case we need to cycle

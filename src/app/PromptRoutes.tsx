@@ -19,7 +19,7 @@ interface StateProps {
 type Props = StateProps & RouteComponentProps;
 
 class Routes extends React.Component<Props> {
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { hasSetPassword, history, location } = this.props;
     if (!hasSetPassword) {
       if (location.pathname !== '/onboarding') {

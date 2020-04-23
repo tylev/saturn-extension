@@ -33,7 +33,7 @@ class FeeSelectField extends Component<Props> {
     this.props.getOnChainFeeEstimates();
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     const { onChainFees } = this.props;
     if (nextProps.onChainFees !== onChainFees && nextProps.onChainFees !== null) {
       const { fastestFee } = nextProps.onChainFees;
